@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Repo Health Score - Evaluate Open Source Project Health</title>
+  <link rel="stylesheet" href="styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="container">
+    <!-- Header -->
+    <header class="header">
+      <div class="logo">
+        <span class="logo-icon">🏥</span>
+        <span class="logo-text">Repo Health Score</span>
+      </div>
+      <nav class="nav">
+        <a href="#analyze">Analyze</a>
+        <a href="#how-it-works">How It Works</a>
+        <a href="https://github.com/lanxinAIhub/repo-health-score" target="_blank">GitHub</a>
+      </nav>
+    </header>
+
+    <!-- Hero -->
+    <section class="hero">
+      <h1 class="hero-title">Evaluate Open Source<br><span class="gradient-text">Project Health</span></h1>
+      <p class="hero-subtitle">Get instant insights on any GitHub repository's health score. Make informed decisions about contributing, using, or investing in open source projects.</p>
+      
+      <div class="search-box">
+        <input type="text" id="repoInput" placeholder="Enter repository (e.g., facebook/react)" />
+        <button id="analyzeBtn" class="btn btn-primary">Analyze →</button>
+      </div>
+      <div class="quick-examples">
+        <span>Try:</span>
+        <button class="example-btn" data-repo="facebook/react">facebook/react</button>
+        <button class="example-btn" data-repo="microsoft/vscode">microsoft/vscode</button>
+        <button class="example-btn" data-repo="torvalds/linux">torvalds/linux</button>
+      </div>
+    </section>
+
+    <!-- Results Section -->
+    <section class="results" id="results" style="display: none;">
+      <div class="result-header">
+        <h2 id="resultRepo">Repository</h2>
+        <span class="result-description" id="resultDesc"></span>
+      </div>
+
+      <!-- Score Card -->
+      <div class="score-card">
+        <div class="score-main">
+          <div class="score-circle" id="scoreCircle">
+            <span class="score-number" id="scoreNumber">0</span>
+            <span class="score-max">/100</span>
+          </div>
+          <div class="score-info">
+            <span class="score-grade" id="scoreGrade">-</span>
+            <span class="score-meaning" id="scoreMeaning"></span>
+          </div>
+        </div>
+        <div class="score-summary" id="scoreSummary"></div>
+      </div>
+
+      <!-- Metrics Grid -->
+      <div class="metrics-grid" id="metricsGrid">
+        <!-- Populated by JS -->
+      </div>
+
+      <!-- Repo Info -->
+      <div class="repo-info" id="repoInfo">
+        <!-- Populated by JS -->
+      </div>
+
+      <!-- Suggestions -->
+      <div class="suggestions" id="suggestions">
+        <h3>💡 Suggestions</h3>
+        <ul id="suggestionsList"></ul>
+      </div>
+    </section>
+
+    <!-- How It Works -->
+    <section class="how-it-works" id="how-it-works">
+      <h2 class="section-title">How It Works</h2>
+      <div class="features-grid">
+        <div class="feature-card">
+          <span class="feature-icon">⭐</span>
+          <h3>Star Analysis</h3>
+          <p>Tracks star growth rate and total star count to measure project popularity and momentum</p>
+        </div>
+        <div class="feature-card">
+          <span class="feature-icon">💻</span>
+          <h3>Commit Activity</h3>
+          <p>Monitors commit frequency and trends to assess development velocity and maintenance</p>
+        </div>
+        <div class="feature-card">
+          <span class="feature-icon">📋</span>
+          <h3>Issue Handling</h3>
+          <p>Measures issue response time and resolution rate to evaluate community support quality</p>
+        </div>
+        <div class="feature-card">
+          <span class="feature-icon">🔀</span>
+          <h3>PR Merge Rate</h3>
+          <p>Analyzes pull request merge times and success rates to gauge contribution friendliness</p>
+        </div>
+        <div class="feature-card">
+          <span class="feature-icon">🤝</span>
+          <h3>Contributor Diversity</h3>
+          <p>Examines contributor count and distribution to assess project community health</p>
+        </div>
+        <div class="feature-card">
+          <span class="feature-icon">⏱️</span>
+          <h3>Responsiveness</h3>
+          <p>Tracks how quickly maintainers respond to community interactions</p>
+        </div>
+      </div>
+
+      <!-- Scoring Weights -->
+      <div class="weights-table">
+        <h3>📊 Scoring Weights</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>Metric</th>
+              <th>Weight</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>⭐ Stars</td><td>15%</td><td>Total stars + growth rate</td></tr>
+            <tr><td>💻 Commits</td><td>15%</td><td>Frequency + trend</td></tr>
+            <tr><td>📋 Issues</td><td>15%</td><td>Response time + resolution rate</td></tr>
+            <tr><td>🔀 PRs</td><td>15%</td><td>Merge rate + time</td></tr>
+            <tr><td>🤝 Contributors</td><td>10%</td><td>Contributor count</td></tr>
+            <tr><td>⏱️ Responsiveness</td><td>10%</td><td>Issue/PR response speed</td></tr>
+            <tr><td>📈 Growth</td><td>10%</td><td>Star + commit growth</td></tr>
+            <tr><td>🔥 Activity</td><td>10%</td><td>Overall activity level</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <p>Built with ❤️ by <a href="https://github.com/lanxinAIhub">lanxinAIhub</a></p>
+      <p class="footer-note">Open source under MIT License</p>
+    </footer>
+  </div>
+
+  <!-- Loading Overlay -->
+  <div class="loading-overlay" id="loadingOverlay" style="display: none;">
+    <div class="spinner"></div>
+    <p>Analyzing repository...</p>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
